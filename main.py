@@ -5,8 +5,9 @@ import string
 
 window = tk.Tk()
 window.title("My Toolbelt")
-window.rowconfigure(0, minsize=800, weight=1)
-window.columnconfigure(1, minsize=800, weight=1)
+window.geometry('900x600')
+window.rowconfigure([0, 1, 2, 3], weight=1)
+window.columnconfigure([0, 1, 2], weight=1)
 
 
 def create_menu():
@@ -27,8 +28,12 @@ def generate_password():
     alphabet = string.ascii_letters + string.digits
     password = ''.join(secrets.choice(alphabet) for i in range(20))
 
-    txt_result.delete("1.0", tk.END)
+    clear_password()
     txt_result.insert(tk.END, password)
+
+
+def clear_password():
+    txt_result.delete("1.0", tk.END)
 
 
 def open_password_generator():
@@ -38,12 +43,18 @@ def open_password_generator():
         text="Generate Password",
         command=generate_password
     )
-    frm_buttons.grid(row=0, column=0, sticky="ns")
-    btn_generate.grid(row=0, column=0, padx=20, pady=20)
-    txt_result.grid(row=1, column=0)
+    btn_clear = tk.Button(
+        master=frm_buttons,
+        text="Clear",
+        command=clear_password
+    )
+    frm_buttons.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+    btn_generate.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+    btn_clear.grid(row=1, column=0, padx=10, pady=10, sticky="n")
+    txt_result.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
 
-txt_result = tk.Text(master=window, height=1, borderwidth=0)
+txt_result = tk.Text(master=window, height=1, borderwidth=0, relief=tk.RAISED, bd=2)
 
 
 create_menu()
